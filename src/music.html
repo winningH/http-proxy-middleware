@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="referrer" content="never">
+  <title>music</title>
+  <style>
+    ul, li {
+      list-style: none;
+    }
+    .list li {
+      line-height: 50px;
+    }
+    .list li span {
+      display: inline-block;
+      padding: 0 10px;
+      width: 100px;
+    }
+    .list li span:nth-of-type(odd) {
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <ul class="list">
+    <li class="head">
+      <span>歌曲名称</span>
+      <span>歌手</span>
+    </li>
+  </ul>
+  
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+    // http://tingapi.ting.baidu.com/v1/restserver/ting?from=qianqian&version=2.1.0&method=baidu.ting.billboard.billList&format=json&type=1&offset=0&size=50
+    // type = 1-新歌榜,2-热歌榜,11-摇滚榜,12-爵士,16-流行,21-欧美金曲榜,22-经典老歌榜,23-情歌对唱榜,24-影视金曲榜,25-网络歌曲榜 size = 10 //返回条目数量 offset = 0 //获取偏移
+    $.ajax({
+      type: "get",
+      url: "/music.html/song",
+      data: "from=qianqian&version=2.1.0&method=baidu.ting.billboard.billList&format=json&type=2&offset=0&size=10",
+      dataType: "json",
+      success: function (res) {
+        let song = res.song_list;
+        console.log(song);
+        for (let i = 0; i < song.length; i++) {
+          $('.list').append(`
+              <li>
+                <span>${song[i].title}</span>
+                <span>${song[i].author}</span>
+              <li>`)
+          $('.list li:empty').remove()
+        }
+
+      },
+      error: function (err) {
+        console.log(err)
+      }
+    })
+  </script>
+</body>
+</html>

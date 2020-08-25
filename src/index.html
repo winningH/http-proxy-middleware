@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+      .table {
+        margin: 30px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <table class="table" border="1" cellpadding="10" cellspacing="0">
+      <tr>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>性别</th>
+        <th>住址</th>
+        <th>电话</th>
+      </tr>
+    </table>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    
+    <!--
+      https://www.toutiao.com/stream/widget/local_weather/data/?city=
+    -->
+    <script>
+      $.ajax({
+        type: "get",
+        url: "/api",
+        // data: 'city=广州',
+        dataType: "json",
+        success: function (msg) {
+          console.log(msg);
+          let res = msg.data;
+          console.log(res);
+          for (let i = 0; i < res.length; i++) {
+            $('.table').append(`
+              <tr>
+                <td>${res[i].name}</td>
+                <td>${res[i].age}</td>
+                <td>${res[i].sex}</td>
+                <td>${res[i].address}</td>
+                <td>${res[i].phone}</td>
+              <tr>`)
+            $('.table tr:empty').remove()
+          }
+        },
+        error: function (err) {
+          console.log(err)
+        }
+      })
+    </script>
+  </body>
+</html>
